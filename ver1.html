@@ -1,0 +1,109 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todolist</title>
+    <style>
+      body {
+        padding: 10%;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Todo List Ver1</h1>
+    <form>
+      <input type="text" name="input" id="input" />
+      <input type="button" value="Add" onclick="newTodo(input.value)" />
+    </form>
+
+    <ul id="todo-list">
+      <li>
+        <input type="checkbox" checked />
+        <span for="todo">Eat</span>
+        <input type="button" value="Remove" />
+      </li>
+      <li>
+        <input type="checkbox" unchecked />
+        <span for="todo">Sleep</span>
+        <input type="button" value="Remove" />
+      </li>
+      <li>
+        <input type="checkbox" unchecked />
+        <span for="todo">Code</span>
+        <input type="button" value="Remove" />
+      </li>
+      <li>
+        <input type="checkbox" unchecked />
+        <span for="todo">Repeat</span>
+        <input type="button" value="Remove" />
+      </li>
+    </ul>
+    <!-- Javascript -->
+    <script>
+      let input = document.getElementById("input");
+      input.addEventListener("input", () => {
+        return;
+      });
+
+      function newTodo() {
+        // Get todolist
+        let list = document.getElementById("todo-list");
+        // Create new elements
+        let li = document.createElement("li");
+        let span = document.createElement("span");
+        let spanText = document.createTextNode(input.value);
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        // Set button functionalities
+        let rmvBtn = document.createElement("button");
+        let rmvBtnText = document.createTextNode("Remove");
+        rmvBtn.onclick = function () {
+          return this.parentNode.remove();
+        };
+        let updtBtn = document.createElement("button");
+        let updtBtnText = document.createTextNode("Update");
+        updtBtn.onclick = () =>
+          updateTodo(span);
+
+        // Add element to DOM
+        span.appendChild(spanText);
+        rmvBtn.appendChild(rmvBtnText);
+        updtBtn.appendChild(updtBtnText);
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(updtBtn);
+        li.appendChild(rmvBtn);
+        list.prepend(li);
+
+        // clear input
+        input.value = "";
+      }
+
+      function updateTodo(span) {
+        span.toggleAttribute("contenteditable");
+      }
+    </script>
+  </body>
+</html>
+
+<!-- MUST DO  -->
+<!-- DONE// Add new todo to the list -->
+<!-- DONE // delete from the list  -->
+<!-- update a todo  -->
+
+<!-- read from a server (GET request) -->
+<!-- post to a server (POST request) -->
+<!-- update yp a server (PATCH request) -->
+
+<!-- BONUS -->
+<!-- Build my own backend -->

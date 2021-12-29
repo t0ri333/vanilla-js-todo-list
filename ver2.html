@@ -1,0 +1,108 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        padding: 10%;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Todo List v2</h1>
+    <form>
+      <input type="text" name="input" id="input" />
+      <input type="button" value="Add" onclick="addTodo(input.value)" />
+    </form>
+    <ul id="list"></ul>
+  </body>
+  <script>
+    let data = [];
+
+    // Event listener
+    let input = document.getElementById("input");
+    input.addEventListener("input", () => {
+      return;
+    });
+
+    // Create new DOM element
+    const mkNewNode = (item) => {
+      const node = document.createElement("li");
+      node.setAttribute("key", item.id);
+      node.innerHTML = `
+        <input id="${item.id}" type="checkbox" class="checkbox" onclick="toggleTodo()"/>
+        <label for="${item.id}" ></label>
+        <span class="text">${item.text}</span>
+        <input type="button" value="Update" class="updtBtn" onclick="toggleTodo()"/>
+        <input type="button" value="Remove" class="rmvBtn" onclick="toggleTodo()"/>
+    `;
+      list.prepend(node);
+    };
+
+    // Render Todo List
+    const list = document.getElementById("list");
+
+    const renderTodo = () => {
+      data.forEach((item) => {
+        mkNewNode(item);
+      });
+    };
+    renderTodo();
+
+    // Create todo
+    const addTodo = () => {
+      let newTodo = {
+        text: input.value,
+        checked: false,
+        id: Date.now(),
+      };
+      data.unshift(newTodo);
+      mkNewNode(newTodo);
+      input.value = "";
+    };
+
+    const toggleTodo = () => {
+      list.addEventListener("click", (e) => {
+        // Find target
+        let targetID = Number(e.target.id);
+        let target = e.target;
+        const findItem = (item) => {
+          return item.id === targetID;
+        };
+        const idx = data.findIndex(findItem);
+        const classlist = target.classList;
+        todoFunctions(classlist, idx, target);
+      });
+    };
+
+    const todoFunctions = (classlist, idx, target) => {
+      // Toggle Checkbox
+      if (classlist.contains("checkbox")) {
+        data[idx].checked = target.checked;
+      }
+      // Update todo
+      else if (classlist.contains("updtBtn")) {
+        const text = target.previousElementSibling;
+        console.log(text);
+        text.toggleAttribute("contenteditable");
+        console.log("switched!");
+      }
+      // Delete todo
+      else if (classlist.contains("rmvBtn")) {
+        target.parentNode.remove();
+        data.splice(idx, 1);
+      }
+    };
+  </script>
+</html>
